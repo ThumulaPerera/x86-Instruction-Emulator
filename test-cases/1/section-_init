@@ -1,0 +1,13 @@
+00001000 <_init>:
+    1000:	f3 0f 1e fb          	endbr32 
+    1004:	53                   	push   %ebx
+    1005:	83 ec 08             	sub    $0x8,%esp
+    1008:	e8 03 01 00 00       	call   1110 <__x86.get_pc_thunk.bx>
+    100d:	81 c3 cb 2f 00 00    	add    $0x2fcb,%ebx
+    1013:	8b 83 1c 00 00 00    	mov    0x1c(%ebx),%eax
+    1019:	85 c0                	test   %eax,%eax
+    101b:	74 02                	je     101f <_init+0x1f>
+    101d:	ff d0                	call   *%eax
+    101f:	83 c4 08             	add    $0x8,%esp
+    1022:	5b                   	pop    %ebx
+    1023:	c3                   	ret    
