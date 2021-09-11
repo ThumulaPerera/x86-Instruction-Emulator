@@ -47,7 +47,8 @@ void printSequence(uint8_t *sequence, int length)
 
 int main(int argc, char const *argv[])
 {
-    std::string input_sequence = "8d 4c 24 04 83 e4 f0 50 c1 f8 02 34 2e 89 e5 45 83 ec 04 80 7c 24 04 81 5d";
+    // std::string input_sequence = "8d 4c 24 04 83 e4 f0 50 c1 f8 02 34 2e 89 e5 45 83 ec 04 80 7c 24 04 81 5d";
+    std::string input_sequence = "83 c0 05 83 c1 10 01 c8  83 c1 20 83 c2 25";
     int sequence_length;
     uint8_t *sequence;
     decodeSequence(input_sequence, &sequence, &sequence_length);
@@ -59,10 +60,11 @@ int main(int argc, char const *argv[])
 
     AbstractInstruction *ins;
     Storage* storage =  new Storage();
-    for (size_t i = 0; i < 25; i++)
+    while (current_index < sequence_length)
     {
         ins = InstructionFactory::createInstruction(sequence, &current_index, storage);
         ins->execute();
+        storage->printAll();
         delete ins;
     }
     // InstructionFactory::createInstruction(sequence, &current_index);
