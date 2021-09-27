@@ -16,9 +16,9 @@ public:
     void execute()
     {
         std::cout << "executing ADD83\n";
-        modRMByte = new ModRM(this->sequence,this->sequence_current_index);
-        const int32_t imm = (int32_t)(this->getImmediateValue<uint8_t>());
+        modRMByte = new ModRM(this->sequence,this->sequence_current_index, this->storage);
         StorageArgs storageArgs = modRMByte->getModRM();
+        const int32_t imm = (int32_t)(this->getImmediateValue<uint8_t>());
         int32_t result = imm + this->storage->load<int32_t>(storageArgs);
         std::cout << "result = "<< result << std::endl;
         this->storage->save<int32_t>(result, storageArgs);

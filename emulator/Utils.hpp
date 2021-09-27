@@ -43,7 +43,7 @@ enum StorageType
 struct StorageArgs  
 {  
     enum StorageType storage_type;
-    int address; 
+    int32_t address; 
 };
 
 

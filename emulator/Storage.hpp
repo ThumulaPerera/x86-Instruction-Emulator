@@ -69,6 +69,7 @@ public:
             break;
         case MEMORY:
             std::memcpy(&memory[storageArgs.address], &value, sizeof(T));
+            break;
 
         default:
             throw std::logic_error("Unknown storage access");

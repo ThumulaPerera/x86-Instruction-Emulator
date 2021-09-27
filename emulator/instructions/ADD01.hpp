@@ -16,7 +16,7 @@ public:
     void execute()
     {
         std::cout << "executing ADD01\n";
-        modRMByte = new ModRM(this->sequence, this->sequence_current_index);
+        modRMByte = new ModRM(this->sequence, this->sequence_current_index, this->storage);
         StorageArgs operand1Args = modRMByte->getModRM();
         StorageArgs operand2Args = modRMByte->getReg();
         int32_t result = this->storage->load<int32_t>(operand1Args) +
