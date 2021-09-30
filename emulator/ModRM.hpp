@@ -34,8 +34,8 @@ public:
     struct StorageArgs getModRM()
     {
         uint8_t mod = (byte_value & ((uint8_t)0b11000000)) >> 6;
-        uint8_t reg_opcode = byte_value & ((uint8_t)0b00000111);
-        uint8_t rm = (byte_value & ((uint8_t)0b00111000)) >> 3;
+        uint8_t rm = byte_value & ((uint8_t)0b00000111);
+        uint8_t reg_opcode = (byte_value & ((uint8_t)0b00111000)) >> 3;
         struct StorageArgs output;
         switch (mod)
         {
@@ -92,8 +92,9 @@ public:
         }
 
         case 0b11:
+            // TODO: determine the register size based on the instruction
             output.storage_type = R32;
-            output.address = (int)reg_opcode;
+            output.address = (int)rm;
             break;
 
         default:
