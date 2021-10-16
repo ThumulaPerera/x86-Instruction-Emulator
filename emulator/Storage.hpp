@@ -59,14 +59,28 @@ public:
             break;
 
         case R8:
-            // if (AL <= storage_id <= BL)
-            // {
-            //     registers[id - AL] =
-            // }
+        {
+            uint32_t bit_mask;
+            int shift_size;
+            int32_t reference;
+            if (storageArgs.address <= BL)
+            {
+                bit_mask = 0xffffff00;
+                shift_size = 0;
+                reference = AL;
+            }
+            else
+            {
+                bit_mask = 0xffff00ff;
+                shift_size = 8;
+                reference = AH;
+            }
 
-            // registers[id - EAX] = (int32_t)value;
-            throw std::logic_error("R8 register access not implemented");
+            uint32_t extended_value = ((uint32_t)((uint8_t)(value))) << shift_size;
+            uint32_t final_value = (((uint32_t)registers[storageArgs.address - reference]) & bit_mask) | extended_value;
+            std::memcpy(&registers[storageArgs.address - reference], &final_value, sizeof(int32_t));
             break;
+        }
         case MEMORY:
             std::memcpy(&memory[storageArgs.address], &value, sizeof(T));
             break;
@@ -90,8 +104,25 @@ public:
             break;
 
         case R8:
-            throw std::logic_error("R8 register access not implemented");
+        {
+            uint32_t bit_mask;
+            int shift_size;
+            int32_t reference;
+            if (storageArgs.address <= BL)
+            {
+                bit_mask = 0x000000ff;
+                shift_size = 0;
+                reference = AL;
+            }
+            else
+            {
+                bit_mask = 0x0000ff00;
+                shift_size = 8;
+                reference = AH;
+            }
+            output = (T)((((uint32_t)registers[storageArgs.address - reference]) & bit_mask) >> shift_size);
             break;
+        }
         case MEMORY:
             std::memcpy(&output, &memory[storageArgs.address], sizeof(T));
             break;

@@ -11,14 +11,38 @@ class ModRM
 {
 private:
     uint8_t byte_value;
+    int register_operand_size;
     const uint8_t *sequence;
     int *sequence_current_index;
     Storage *storage;
 
+    enum StorageType getRegisterType()
+    {
+        switch (this->register_operand_size)
+        {
+        case 8:
+            return R8;
+            break;
+
+        case 16:
+            return R16;
+            break;
+
+        case 32:
+            return R32;
+            break;
+
+        default:
+            throw std::logic_error("Operand size should be one of 8, 16, 32");
+            break;
+        }
+    }
+
 public:
-    ModRM(const uint8_t *sequence, int *sequence_current_index, Storage *storage)
+    ModRM(const int register_operand_size, const uint8_t *sequence, int *sequence_current_index, Storage *storage)
     {
         byte_value = sequence[(*sequence_current_index)++];
+        this->register_operand_size = register_operand_size;
         this->sequence = sequence;
         this->sequence_current_index = sequence_current_index;
         this->storage = storage;
@@ -28,7 +52,7 @@ public:
     struct StorageArgs getReg()
     {
         struct StorageArgs output;
-        output.storage_type = R32;
+        output.storage_type = this->getRegisterType();
         output.address = (int)((byte_value & ((uint8_t)0b00111000)) >> 3);
         return output;
     }
@@ -121,8 +145,7 @@ public:
         }
 
         case 0b11:
-            // TODO: determine the register size based on the instruction
-            output.storage_type = R32;
+            output.storage_type = this->getRegisterType();
             output.address = (int)rm;
             break;
 
