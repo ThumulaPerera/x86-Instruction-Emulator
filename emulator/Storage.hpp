@@ -58,6 +58,14 @@ public:
             std::memcpy(&registers[storageArgs.address - EAX], &value, sizeof(int32_t));
             break;
 
+        case R16:
+        {
+            uint32_t extended_value = (uint32_t)((uint16_t)(value));
+            uint32_t final_value = (((uint32_t)registers[storageArgs.address - AX]) & 0xffff0000) | extended_value;
+            std::memcpy(&registers[storageArgs.address - AX], &final_value, sizeof(int32_t));
+            break;
+        }
+
         case R8:
         {
             uint32_t bit_mask;
@@ -102,6 +110,12 @@ public:
         case R32:
             std::memcpy(&output, &registers[storageArgs.address - EAX], sizeof(int32_t));
             break;
+
+        case R16:
+        {
+            output = (T)(((uint32_t)registers[storageArgs.address - AX]) & 0x0000ffff);
+            break;
+        }
 
         case R8:
         {
