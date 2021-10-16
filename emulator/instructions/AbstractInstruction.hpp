@@ -23,12 +23,8 @@ public:
     T getImmediateValue()
     {
         T output = 0;
-        uint8_t immValInArray[sizeof(T)];
-        for (int i = sizeof(T) - 1; i >= 0; i--)
-        {
-            immValInArray[i] = this->sequence[(*(this->sequence_current_index))++];
-        }
-        std::memcpy(&output, immValInArray, sizeof(T));
+        std::memcpy(&output, &(this->sequence[*this->sequence_current_index]), sizeof(T));
+        (*this->sequence_current_index) += sizeof(int32_t);
         return output;
     }
     virtual ~AbstractInstruction(){};
