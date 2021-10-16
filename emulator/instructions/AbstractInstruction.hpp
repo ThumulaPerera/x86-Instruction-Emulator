@@ -24,7 +24,7 @@ public:
     {
         T output = 0;
         std::memcpy(&output, &(this->sequence[*this->sequence_current_index]), sizeof(T));
-        (*this->sequence_current_index) += sizeof(int32_t);
+        (*this->sequence_current_index) += sizeof(T);
         return output;
     }
     virtual ~AbstractInstruction(){};
