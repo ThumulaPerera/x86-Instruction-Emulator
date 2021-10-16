@@ -57,6 +57,10 @@ public:
         return output;
     }
 
+    int getOpcodeExtension(){
+        return (int)((byte_value & ((uint8_t)0b00111000)) >> 3)
+    }
+
     struct StorageArgs getModRM()
     {
         uint8_t mod = (byte_value & ((uint8_t)0b11000000)) >> 6;
