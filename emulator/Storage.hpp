@@ -36,7 +36,7 @@ public:
     int stackPush(T value)
     {
         registers[ESP] -= sizeof(T);
-        std::memcpy(&memory[ESP], &value, sizeof(T));
+        std::memcpy(&memory[registers[ESP]], &value, sizeof(T));
         return 0;
     }
 
@@ -44,8 +44,8 @@ public:
     T stackPop()
     {
         T output;
-        std::memcpy(&output, &memory[ESP], sizeof(T));
-        registers[ESP] -= sizeof(T);
+        std::memcpy(&output, &memory[registers[ESP]], sizeof(T));
+        registers[ESP] += sizeof(T);
         return output;
     }
 
