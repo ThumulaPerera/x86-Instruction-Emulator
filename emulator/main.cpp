@@ -48,7 +48,13 @@ void printSequence(uint8_t *sequence, int length)
 int main(int argc, char const *argv[])
 {
     // std::string input_sequence = "8d 4c 24 04 83 e4 f0 50 c1 f8 02 34 2e 89 e5 45 83 ec 04 80 7c 24 04 81 5d";
-    std::string input_sequence = "83 c0 05 83 c1 10 01 c8  83 c1 20 83 c2 25";
+    // std::string input_sequence = "83 c0 05 83 c1 10 01 c8 83 c1 20 83 c2 25";
+    // std::string input_sequence = "83 80 e8 03 00 00 05 83 80 e8 03 00 00 fe 83 80 e9 03 00 00 ff 01 c8 83 c1 20 83 c2 25";
+    // std::string input_sequence = "83 1c 8a 31";
+    // std::string input_sequence = "83 b4 ca e8 03 00 00 31";
+    // std::string input_sequence = "81 b4 ca e8 03 00 00 d1 2f 01 00";
+    // std::string input_sequence = "05 ab cd 8d 84 ca e8 03 00 00";
+    std::string input_sequence = "50 5a";
     int sequence_length;
     uint8_t *sequence;
     decodeSequence(input_sequence, &sequence, &sequence_length);

@@ -1,7 +1,6 @@
 #ifndef Storage_H
 #define Storage_H
 
-// #include <stack>
 #include <stdexcept>
 #include <cstring>
 #include <string>
@@ -17,8 +16,7 @@ class Storage
 private:
     int32_t registers[REGISTER_COUNT]; // for EAX,ECX,EDX,EBX,ESP,EBP,ESI,EDI,
     int8_t memory[MAX_MEMORY_SIZE];
-    // std::stack<int32_t> stack;
-    // int32_t stack_pointer;
+
 
 public:
     Storage(/* args */)
@@ -30,6 +28,10 @@ public:
         }
         registers[EBP] = MAX_MEMORY_SIZE;
         registers[ESP] = MAX_MEMORY_SIZE;
+        // registers[EDX] = 200;
+        // registers[ECX] = 9;
+        // registers[EAX] = 0xfedcba98;
+        // registers[EBX] = 0xf89ac;
     };
 
     template <class T>
