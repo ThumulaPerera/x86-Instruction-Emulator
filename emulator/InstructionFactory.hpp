@@ -13,6 +13,7 @@
 #include "instructions/LEA8D.hpp"
 #include "instructions/POP.hpp"
 #include "instructions/PUSH.hpp"
+#include "instructions/INCDECFF.hpp"
 
 #include "instructions/SomeOther.hpp"
 #include "Storage.hpp"
@@ -56,6 +57,10 @@ public:
             break;
         case 0x8d:
             instruction = new LEA8D(opCode, sequence, sequence_current_index, storage);
+            break;
+
+        case 0xff:
+            instruction = new INCDECFF(opCode, sequence, sequence_current_index, storage);
             break;
 
         default:
