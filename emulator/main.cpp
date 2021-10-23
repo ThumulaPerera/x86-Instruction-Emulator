@@ -3,11 +3,8 @@
 #include <sstream>
 #include <stdio.h>
 
-
-
 #include "InstructionFactory.hpp"
 #include "Storage.hpp"
-
 
 int decodeSequence(std::string input_sequence_in, uint8_t **sequence_out, int *sequence_length_out)
 {
@@ -55,9 +52,9 @@ int main(int argc, char const *argv[])
     // std::string input_sequence = "81 b4 ca e8 03 00 00 d1 2f 01 00";
     // std::string input_sequence = "05 ab cd 8d 84 ca e8 03 00 00";
     // std::string input_sequence = "50 5a";
-    // std::string input_sequence = "ff c2";
+    std::string input_sequence = "ff c2";
     // std::string input_sequence = "ff ca";
-    std::string input_sequence = "ff f2";
+    // std::string input_sequence = "ff f2";
     int sequence_length;
     uint8_t *sequence;
     decodeSequence(input_sequence, &sequence, &sequence_length);
@@ -68,7 +65,7 @@ int main(int argc, char const *argv[])
     int current_index = 0;
 
     AbstractInstruction *ins;
-    Storage* storage =  new Storage();
+    Storage *storage = new Storage();
     while (current_index < sequence_length)
     {
         ins = InstructionFactory::createInstruction(sequence, &current_index, storage);
