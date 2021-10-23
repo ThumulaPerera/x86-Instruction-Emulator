@@ -46,6 +46,12 @@ struct StorageArgs
     int32_t address; 
 };
 
+struct MemoryBlock
+{
+    uint32_t address;
+    int8_t value;
+};
+
 
 // enum StorageId
 // {
