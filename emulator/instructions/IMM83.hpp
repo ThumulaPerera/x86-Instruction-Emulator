@@ -17,10 +17,12 @@ public:
     using AbstractInstruction::AbstractInstruction;
     void execute()
     {
-        std::cout << "executing IMM83\n";
+        
         modRMByte = new ModRM(register_operand_size, this->sequence, this->sequence_current_index, this->storage);
-        StorageArgs storageArgs = modRMByte->getModRM();
+        StorageRawArgs storageRawArgs;
+        StorageArgs storageArgs = modRMByte->getModRM(storageRawArgs);
         int opcodeExtension = modRMByte->getOpcodeExtension();
+        // std::cout << "IMM83 " << stringifyStorageRawArgs(storageRawArgs) << std::endl;
         int32_t imm = (int32_t)(this->getImmediateValue<int8_t>());
         int32_t regMemoryOperand = this->storage->load<int32_t>(storageArgs);
         int32_t result;
@@ -28,22 +30,27 @@ public:
         switch (opcodeExtension)
         {
         case 0:
+            std::cout << "ADD ";
             result = regMemoryOperand + imm;
             break;
 
         case 1:
+            std::cout << "OR ";
             result = regMemoryOperand | imm;
             break;
 
         case 4:
+            std::cout << "AND ";
             result = regMemoryOperand & imm;
             break;
 
         case 5:
+            std::cout << "SUB ";
             result = regMemoryOperand - imm;
             break;
 
         case 6:
+            std::cout << "XOR ";
             result = regMemoryOperand ^ imm;
             break;
 
@@ -51,6 +58,8 @@ public:
             throw std::logic_error("Opcode extension not implemented for opcode 83");
             break;
         }
+
+        std::cout << "$" << intToHexString<int32_t>(imm) << " , " << stringifyStorageRawArgs(storageRawArgs) << std::endl;
         std::cout << "result = " << result << std::endl;
         this->storage->save<int32_t>(result, storageArgs);
         free(modRMByte);

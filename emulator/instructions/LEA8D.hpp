@@ -16,8 +16,11 @@ public:
     {
         std::cout << "executing LEA8D\n";
         this->modRMByte = new ModRM(register_operand_size, this->sequence, this->sequence_current_index, this->storage);
-        StorageArgs operand1Args = modRMByte->getReg();
-        StorageArgs operand2Args = modRMByte->getModRM();
+
+        StorageRawArgs operand1RawArgs;
+        StorageArgs operand1Args = modRMByte->getModRM(operand1RawArgs);
+        StorageRawArgs operand2RawArgs;
+        StorageArgs operand2Args = modRMByte->getReg(operand2RawArgs);
 
         if (operand2Args.storage_type != MEMORY)
         {

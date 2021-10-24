@@ -18,7 +18,8 @@ public:
     {
         std::cout << "executing ADD81\n";
         modRMByte = new ModRM(register_operand_size, this->sequence,this->sequence_current_index, this->storage);
-        StorageArgs storageArgs = modRMByte->getModRM();
+        StorageRawArgs storageRawArgs;
+        StorageArgs storageArgs = modRMByte->getModRM(storageRawArgs);
         const int32_t imm = this->getImmediateValue<int32_t>();
         int32_t result = imm + this->storage->load<int32_t>(storageArgs);
         std::cout << "result = "<< result << std::endl;

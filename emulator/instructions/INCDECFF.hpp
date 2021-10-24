@@ -19,7 +19,8 @@ public:
     {
         std::cout << "executing INCDECFF\n";
         modRMByte = new ModRM(register_operand_size, this->sequence, this->sequence_current_index, this->storage);
-        StorageArgs operand1Args = modRMByte->getModRM();
+        StorageRawArgs storageRawArgs;
+        StorageArgs operand1Args = modRMByte->getModRM(storageRawArgs);
         int opcodeExtension = modRMByte->getOpcodeExtension();
         int32_t regMemoryOperand = this->storage->load<int32_t>(operand1Args);
         int32_t result;

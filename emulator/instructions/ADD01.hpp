@@ -18,8 +18,10 @@ public:
     {
         std::cout << "executing ADD01\n";
         modRMByte = new ModRM(register_operand_size, this->sequence, this->sequence_current_index, this->storage);
-        StorageArgs operand1Args = modRMByte->getModRM();
-        StorageArgs operand2Args = modRMByte->getReg();
+        StorageRawArgs operand1RawArgs;
+        StorageArgs operand1Args = modRMByte->getModRM(operand1RawArgs);
+        StorageRawArgs operand2RawArgs;
+        StorageArgs operand2Args = modRMByte->getReg(operand2RawArgs);
         int32_t result = this->storage->load<int32_t>(operand1Args) +
                          this->storage->load<int32_t>(operand2Args);
         std::cout << "result = " << result << std::endl;
