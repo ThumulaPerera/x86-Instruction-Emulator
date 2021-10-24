@@ -4,6 +4,8 @@
 #include <string>
 #include <stdexcept>
 #include <sstream>
+#include <iomanip>
+#include <cstdio>
 
 #define EAX 0
 #define ECX 1
@@ -86,8 +88,15 @@ const std::string Register32Names[8] = {"%eax", "%ecx", "%edx", "%ebx", "%esp", 
 template <typename T>
 std::string intToHexString(T value)
 {
+    if (sizeof(T) == 1)
+    {
+        char buff[5];
+        sprintf(buff, "0x%02x", (unsigned char)value);
+        return std::string(buff);
+    }
+
     std::stringstream sstream;
-    sstream << std::hex << value;
+    sstream << std::hex << std::setw(sizeof(T) * 2) << std::setfill('0') << value;
     return "0x" + sstream.str();
 }
 

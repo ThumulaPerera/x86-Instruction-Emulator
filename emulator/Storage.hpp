@@ -243,11 +243,18 @@ public:
         std::cout << "Registers\n=========================\n";
         for (int i = 0; i < REGISTER_COUNT; i++)
         {
-            std::cout << register_names[i] << "\t" << registers[i] << std::endl;
+            std::cout << register_names[i] << "\t" << intToHexString(registers[i]) << std::endl;
         }
         std::cout << "EFLAGS"
-                  << "\t" << eflags << std::endl;
+                  << "\t" << intToHexString(eflags) << std::endl;
         std::cout << "=========================\n";
+        std::cout << "\nMemory\n=========================\n";
+        std::cout << "Address\t\tValue\n";
+        std::list<MemoryBlock>::iterator position;
+        for (position = new_memory.begin(); position != new_memory.end(); position++)
+        {
+            std::cout << intToHexString(position->address) << "\t" << intToHexString(position->value) << std::endl;
+        }
     }
 
     ~Storage(){};
