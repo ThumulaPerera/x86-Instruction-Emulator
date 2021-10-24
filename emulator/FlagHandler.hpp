@@ -107,8 +107,20 @@ public:
                 handleCF(carry, storage);
                 break;
 
+            case PF:
+                handlePF(result, storage);
+                break;
+
             case ZF:
                 handleZF(result, storage);
+                break;
+
+            case SF:
+                handleSF(result, storage);
+                break;
+
+            case OF:
+                handleOF(oveflow, storage);
                 break;
 
             default:
