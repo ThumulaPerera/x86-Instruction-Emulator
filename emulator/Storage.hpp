@@ -59,6 +59,7 @@ private:
         new_memory.insert(position, {address : address, value : (int8_t)0});
         return (int8_t)0;
     }
+    int32_t eflags;
 
 public:
     Storage(/* args */)
@@ -76,6 +77,7 @@ public:
         // registers[EBX] = 0xf89ac;
         new_memory.push_back({address : 0, value : 0});
         new_memory.push_back({address : 0xffffffff, value : 0});
+        eflags = 0x246;
     };
 
     template <class T>
@@ -225,6 +227,16 @@ public:
         return output;
     }
 
+    void setFlag(enum FlagType flag)
+    {
+        eflags |= (1UL << flag);
+    }
+
+    void resetFlag(enum FlagType flag)
+    {
+        eflags &= ~(1UL << flag);
+    }
+
     void printAll()
     {
         std::string register_names[REGISTER_COUNT] = {"EAX", "ECX", "EDX", "EBX", "ESP", "EBP", "ESI", "EDI"};
@@ -233,7 +245,8 @@ public:
         {
             std::cout << register_names[i] << "\t" << registers[i] << std::endl;
         }
-
+        std::cout << "EFLAGS"
+                  << "\t" << eflags << std::endl;
         std::cout << "=========================\n";
     }
 
