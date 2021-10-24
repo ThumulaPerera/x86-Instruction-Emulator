@@ -162,8 +162,8 @@ public:
     template <class T>
     static bool is32BitAddCarry(T op1, T op2)
     {
-        uint32_t unsigned_op1 = (int32_t)op1;
-        uint32_t unsigned_op2 = (int32_t)op2;
+        uint32_t unsigned_op1 = (uint32_t)op1;
+        uint32_t unsigned_op2 = (uint32_t)op2;
         if (unsigned_op1 > UINT32_MAX - unsigned_op2)
             return true;
         return false;
@@ -172,8 +172,8 @@ public:
     template <class T>
     static bool is32BitSubCarry(T op1, T op2)
     {
-        uint32_t unsigned_op1 = (int32_t)op1;
-        uint32_t unsigned_op2 = (int32_t)op2;
+        uint32_t unsigned_op1 = (uint32_t)op1;
+        uint32_t unsigned_op2 = (uint32_t)op2;
         if (unsigned_op1 < unsigned_op2)
             return true;
         return false;
