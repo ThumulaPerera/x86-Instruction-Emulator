@@ -14,6 +14,9 @@
 #include "instructions/POP.hpp"
 #include "instructions/PUSH.hpp"
 #include "instructions/INCDECFF.hpp"
+#include "instructions/MOV89.hpp"
+#include "instructions/MOV8B.hpp"
+#include "instructions/MOVIMM.hpp"
 
 #include "instructions/SomeOther.hpp"
 #include "Storage.hpp"
@@ -61,6 +64,18 @@ public:
 
         case 0xff:
             instruction = new INCDECFF(opCode, sequence, sequence_current_index, storage);
+            break;
+
+        case 0x89:
+            instruction = new MOV89(opCode, sequence, sequence_current_index, storage);
+            break;
+
+        case 0x8b:
+            instruction = new MOV8B(opCode, sequence, sequence_current_index, storage);
+            break;
+
+        case 0xb8 ... 0xbf:
+            instruction = new MOVIMM(opCode, sequence, sequence_current_index, storage);
             break;
 
         default:
