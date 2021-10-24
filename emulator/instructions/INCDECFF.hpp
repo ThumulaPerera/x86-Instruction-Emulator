@@ -5,6 +5,7 @@
 
 #include "AbstractInstruction.hpp"
 #include "../ModRM.hpp"
+#include "../FlagHandler.hpp"
 
 class INCDECFF : public AbstractInstruction
 {
@@ -25,23 +26,39 @@ public:
 
         switch (opcodeExtension)
         {
-        case 0:
-            result = regMemoryOperand + 1;
-            this->storage->save<int32_t>(result, operand1Args);
-            break;
+            case 0:
+            {   
+                result = regMemoryOperand + 1;
+                this->storage->save<int32_t>(result, operand1Args);
+                
+                enum FlagType flagsAffected[] = {OF, SF, ZF, PF};
+                bool isOverflow = FlagHandler::is32BitAddOveflow(regMemoryOperand, 1);
+                FlagHandler::setFlags(result, this->storage, flagsAffected, 4, false, isOverflow);
 
-        case 1:
-            result = regMemoryOperand - 1;
-            this->storage->save<int32_t>(result, operand1Args);
-            break;
-        
-        case 6:
-            this->storage->stackPush<int32_t>(regMemoryOperand);
-            break;
+                break;
+            }
 
-        default:
-            throw std::logic_error("Opcode extension not implemented for opcode FF");
-            break;
+            case 1:
+            {
+                result = regMemoryOperand - 1;
+                this->storage->save<int32_t>(result, operand1Args);
+
+                enum FlagType flagsAffected[] = {OF, SF, ZF, PF};
+                bool isOverflow = FlagHandler::is32BitSubOveflow(regMemoryOperand, 1);
+                FlagHandler::setFlags(result, this->storage, flagsAffected, 4, false, isOverflow);
+
+                break;
+            }
+
+            case 6:
+            {
+                this->storage->stackPush<int32_t>(regMemoryOperand);
+                break;
+            }
+
+            default:
+                throw std::logic_error("Opcode extension not implemented for opcode FF");
+                break;
         }
 
 

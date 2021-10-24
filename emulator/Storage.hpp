@@ -16,7 +16,7 @@ class Storage
 private:
     int32_t registers[REGISTER_COUNT]; // for EAX,ECX,EDX,EBX,ESP,EBP,ESI,EDI,
     int8_t memory[MAX_MEMORY_SIZE];
-
+    int32_t eflags;
 
 public:
     Storage(/* args */)
@@ -32,6 +32,7 @@ public:
         // registers[ECX] = 9;
         // registers[EAX] = 0xfedcba98;
         // registers[EBX] = 0xf89ac;
+        eflags = 0x246;
     };
 
     template <class T>
@@ -150,6 +151,16 @@ public:
         return output;
     }
 
+    void setFlag(enum FlagType flag)
+    {
+        eflags |= (1UL << flag);
+    }
+
+    void resetFlag(enum FlagType flag)
+    {
+        eflags &= ~(1UL << flag);
+    }
+
     void printAll()
     {
         std::string register_names[REGISTER_COUNT] = {"EAX", "ECX", "EDX", "EBX", "ESP", "EBP", "ESI", "EDI"};
@@ -158,7 +169,8 @@ public:
         {
             std::cout << register_names[i] << "\t" << registers[i] << std::endl;
         }
-
+        std::cout << "EFLAGS"
+                  << "\t" << eflags << std::endl;
         std::cout << "=========================\n";
     }
 

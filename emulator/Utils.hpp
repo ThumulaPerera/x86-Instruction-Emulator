@@ -1,7 +1,6 @@
 #ifndef Utils_H
 #define Utils_H
 
-
 #define EAX 0
 #define ECX 1
 #define EDX 2
@@ -11,7 +10,7 @@
 #define ESI 6
 #define EDI 7
 
-#define AL 0 
+#define AL 0
 #define CL 1
 #define DL 2
 #define BL 3
@@ -31,21 +30,30 @@
 
 enum StorageType
 {
-
     R8,
     R16,
     R32,
     MEMORY,
-
 };
 
-
-struct StorageArgs  
-{  
+struct StorageArgs
+{
     enum StorageType storage_type;
-    int32_t address; 
+    int32_t address;
 };
 
+enum FlagType
+{
+    CF = 0,
+    PF = 2,
+    AF = 4,
+    ZF = 6,
+    SF = 7,
+    TF = 8,
+    IF = 9,
+    DF = 10,
+    OF = 11,
+};
 
 // enum StorageId
 // {
@@ -58,9 +66,6 @@ struct StorageArgs
 //     EBP,
 //     ESI,
 //     EDI,
-
-
-
 
 // };
 
