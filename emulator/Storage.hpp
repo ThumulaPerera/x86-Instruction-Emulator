@@ -5,6 +5,8 @@
 #include <cstring>
 #include <string>
 #include <iostream>
+#include <cstdio>
+#include <list>
 
 #include "Utils.hpp"
 
@@ -15,7 +17,48 @@ class Storage
 {
 private:
     int32_t registers[REGISTER_COUNT]; // for EAX,ECX,EDX,EBX,ESP,EBP,ESI,EDI,
-    int8_t memory[MAX_MEMORY_SIZE];
+    // int8_t memory[MAX_MEMORY_SIZE];
+    std::list<MemoryBlock> new_memory;
+
+    void saveByteToMemory(uint32_t address, int8_t value)
+    {
+        std::list<MemoryBlock>::iterator position;
+        for (position = new_memory.begin(); position != new_memory.end(); position++)
+        {
+            if (position->address == address)
+            {
+                position->value = value;
+                return;
+            }
+
+            if (position->address > address)
+            {
+                break;
+            }
+        }
+        new_memory.insert(position, {address : address, value : value});
+
+        return;
+    }
+
+    int8_t loadByteFromMemory(uint32_t address)
+    {
+        std::list<MemoryBlock>::iterator position;
+        for (position = new_memory.begin(); position != new_memory.end(); position++)
+        {
+            if (position->address == address)
+            {
+                return position->value;
+            }
+            if (position->address > address)
+            {
+                break;
+            }
+        }
+        printf("Warning: Reading from uninitialized memory location 0x%x\n", address);
+        new_memory.insert(position, {address : address, value : (int8_t)0});
+        return (int8_t)0;
+    }
     int32_t eflags;
 
 public:
@@ -32,6 +75,8 @@ public:
         // registers[ECX] = 9;
         // registers[EAX] = 0xfedcba98;
         // registers[EBX] = 0xf89ac;
+        new_memory.push_back({address : 0, value : 0});
+        new_memory.push_back({address : 0xffffffff, value : 0});
         eflags = 0x246;
     };
 
@@ -39,7 +84,13 @@ public:
     int stackPush(T value)
     {
         registers[ESP] -= sizeof(T);
-        std::memcpy(&memory[registers[ESP]], &value, sizeof(T));
+        int8_t *buffer = (int8_t *)malloc(sizeof(T));
+        std::memcpy(buffer, &value, sizeof(T));
+        for (size_t i = 0; i < sizeof(T); i++)
+        {
+            saveByteToMemory(((uint32_t)(registers[ESP])) + ((uint32_t)i), buffer[i]);
+        }
+        free(buffer);
         return 0;
     }
 
@@ -47,7 +98,14 @@ public:
     T stackPop()
     {
         T output;
-        std::memcpy(&output, &memory[registers[ESP]], sizeof(T));
+        int8_t *buffer = (int8_t *)malloc(sizeof(T));
+        for (size_t i = 0; i < sizeof(T); i++)
+        {
+            buffer[i] = loadByteFromMemory(((uint32_t)(registers[ESP])) + ((uint32_t)i));
+        }
+
+        std::memcpy(&output, buffer, sizeof(T));
+        free(buffer);
         registers[ESP] += sizeof(T);
         return output;
     }
@@ -93,8 +151,17 @@ public:
             break;
         }
         case MEMORY:
-            std::memcpy(&memory[storageArgs.address], &value, sizeof(T));
+        {
+            int8_t *buffer = (int8_t *)malloc(sizeof(T));
+            std::memcpy(buffer, &value, sizeof(T));
+            for (size_t i = 0; i < sizeof(T); i++)
+            {
+                saveByteToMemory(((uint32_t)storageArgs.address) + ((uint32_t)i), buffer[i]);
+            }
+            free(buffer);
+
             break;
+        }
 
         default:
             throw std::logic_error("Unknown storage access");
@@ -141,8 +208,17 @@ public:
             break;
         }
         case MEMORY:
-            std::memcpy(&output, &memory[storageArgs.address], sizeof(T));
+        {
+            int8_t *buffer = (int8_t *)malloc(sizeof(T));
+            for (size_t i = 0; i < sizeof(T); i++)
+            {
+                buffer[i] = loadByteFromMemory(((uint32_t)storageArgs.address) + ((uint32_t)i));
+            }
+
+            std::memcpy(&output, buffer, sizeof(T));
+            free(buffer);
             break;
+        }
 
         default:
             throw std::logic_error("Unknown storage access");
