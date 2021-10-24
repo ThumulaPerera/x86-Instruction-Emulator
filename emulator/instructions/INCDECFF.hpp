@@ -5,6 +5,7 @@
 
 #include "AbstractInstruction.hpp"
 #include "../ModRM.hpp"
+#include "../FlagHandler.hpp"
 
 class INCDECFF : public AbstractInstruction
 {
@@ -31,7 +32,7 @@ public:
                 this->storage->save<int32_t>(result, operand1Args);
                 
                 enum FlagType flagsAffected[] = {ZF};
-                this->storage->setFlags(result, flagsAffected, 2);
+                FlagHandler::setFlags(result, this->storage, flagsAffected, 1);
 
                 break;
             }
@@ -42,7 +43,7 @@ public:
                 this->storage->save<int32_t>(result, operand1Args);
 
                 enum FlagType flagsAffected[] = {ZF};
-                this->storage->setFlags(result, flagsAffected, 2);
+                FlagHandler::setFlags(result, this->storage, flagsAffected, 1);
 
                 break;
             }

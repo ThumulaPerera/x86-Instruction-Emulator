@@ -18,43 +18,6 @@ private:
     int8_t memory[MAX_MEMORY_SIZE];
     int32_t eflags;
 
-    void setFlag(enum FlagType flag)
-    {
-        eflags |= (1UL << flag);
-    }
-
-    void resetFlag(enum FlagType flag)
-    {
-        eflags &= ~(1UL << flag);
-    }
-
-    // methods to handle individual flags
-
-    void handleCF(bool carry)
-    {
-        if (carry)
-        {
-            setFlag(CF);
-        }
-        else
-        {
-            resetFlag(CF);
-        }
-    };
-
-    template <class T>
-    void handleZF(T result)
-    {
-        if (result == 0b0)
-        {
-            setFlag(ZF);
-        }
-        else
-        {
-            resetFlag(ZF);
-        }
-    };
-
 public:
     Storage(/* args */)
     {
@@ -188,31 +151,14 @@ public:
         return output;
     }
 
-    template <class T>
-    void setFlags(T result, enum FlagType flagsAffected[], int flagsAffectedCount, bool carry = false, bool oveflow = false)
+    void setFlag(enum FlagType flag)
     {
-        for (int i = 0; i < flagsAffectedCount; i++)
-        {
-            std::cout << "flag: " << flagsAffected[i] << std::endl;
+        eflags |= (1UL << flag);
+    }
 
-            FlagType flagType = flagsAffected[i];
-
-            switch (flagType)
-            {
-            case CF:
-                handleCF(carry);
-                break;
-
-            case ZF:
-                handleZF(result);
-                break;
-
-            default:
-                printf("Unknown Flag Type %x\n", flagType);
-                throw std::logic_error("Flag not implemented");
-                break;
-            }
-        }
+    void resetFlag(enum FlagType flag)
+    {
+        eflags &= ~(1UL << flag);
     }
 
     void printAll()
