@@ -31,8 +31,9 @@ public:
                 result = regMemoryOperand + 1;
                 this->storage->save<int32_t>(result, operand1Args);
                 
-                enum FlagType flagsAffected[] = {ZF};
-                FlagHandler::setFlags(result, this->storage, flagsAffected, 1);
+                enum FlagType flagsAffected[] = {OF, SF, ZF, PF};
+                bool isOverflow = FlagHandler::is32BitAddOveflow(regMemoryOperand, 1);
+                FlagHandler::setFlags(result, this->storage, flagsAffected, 4, false, isOverflow);
 
                 break;
             }
@@ -42,8 +43,9 @@ public:
                 result = regMemoryOperand - 1;
                 this->storage->save<int32_t>(result, operand1Args);
 
-                enum FlagType flagsAffected[] = {ZF};
-                FlagHandler::setFlags(result, this->storage, flagsAffected, 1);
+                enum FlagType flagsAffected[] = {OF, SF, ZF, PF};
+                bool isOverflow = FlagHandler::is32BitSubOveflow(regMemoryOperand, 1);
+                FlagHandler::setFlags(result, this->storage, flagsAffected, 4, false, isOverflow);
 
                 break;
             }
