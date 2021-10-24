@@ -126,10 +126,10 @@ public:
 
         int32_t signed_op1 = (int32_t)op1;
         int32_t signed_op2 = (int32_t)op2;
-        int32_t result = op1 + op2;
-        if (op1 > 0 && op2 > 0 && result < 0)
+        int32_t result = signed_op1 + signed_op2;
+        if (signed_op1 > 0 && signed_op2 > 0 && result < 0)
             return true;
-        if (op1 < 0 && op2 < 0 && result > 0)
+        if (signed_op1 < 0 && signed_op2 < 0 && result > 0)
             return true;
         return false;
     }
@@ -141,8 +141,8 @@ public:
 
         int32_t signed_op1 = (int32_t)op1;
         int32_t signed_op2 = (int32_t)op2;
-        int32_t result = op1 - op2;
-        if (signbit(result) ^ signbit(op2))
+        int32_t result = signed_op1 - signed_op2;
+        if (signbit(result) ^ signbit(signed_op2))
             return false;
         return true;
     }
