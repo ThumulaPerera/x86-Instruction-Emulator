@@ -18,12 +18,14 @@ public:
     using AbstractInstruction::AbstractInstruction;
     void execute()
     {
-        std::cout << "executing ADD00\n";
+        
         modRMByte = new ModRM(register_operand_size, this->sequence, this->sequence_current_index, this->storage);
         StorageRawArgs operand1RawArgs;
         StorageArgs operand1Args = modRMByte->getModRM(operand1RawArgs);
         StorageRawArgs operand2RawArgs;
         StorageArgs operand2Args = modRMByte->getReg(operand2RawArgs);
+
+        std::cout << "ADD " <<  stringifyStorageRawArgs(operand2RawArgs) << " , " << stringifyStorageRawArgs(operand1RawArgs) << std::endl;
 
         int8_t operand1 = this->storage->load<int8_t>(operand1Args);
         int8_t operand2 = this->storage->load<int8_t>(operand2Args);

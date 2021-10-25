@@ -24,6 +24,14 @@ public:
         int32_t imm = this->getImmediateValue<int32_t>();
         int32_t regOperand = this->storage->load<int32_t>(operandArgs);
 
+        struct StorageRawArgs operandRawArgs;
+        operandRawArgs.storage_type = R32;
+        operandRawArgs.direct_reg = EAX;
+
+        std::cout << "ADD "
+                  << "$" << intToHexString<int32_t>(imm) << " , " << stringifyStorageRawArgs(operandRawArgs) << std::endl;
+
+
         int32_t result = regOperand + imm;
         std::cout << "result = " << result << std::endl << std::endl;
         this->storage->save<int32_t>(result, operandArgs);
