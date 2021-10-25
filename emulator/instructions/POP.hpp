@@ -28,7 +28,7 @@ public:
         std::cout << "POP " << stringifyStorageRawArgs(operandRawArgs) << std::endl;
 
         int32_t poppped_value = this->storage->stackPop<int32_t>();
-        std::cout << "poppped value = " << poppped_value << std::endl;
+        std::cout << "poppped value = " << poppped_value << std::endl << std::endl;
         this->storage->save<int32_t>(poppped_value, operandArgs);
     }
     ~POP(){};

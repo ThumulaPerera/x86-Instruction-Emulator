@@ -23,7 +23,7 @@ public:
 
         int32_t movedValue = this->getImmediateValue<int32_t>();
 
-        std::cout << "value being moved = " << movedValue << std::endl;
+        std::cout << "value being moved = " << movedValue << std::endl << std::endl;
         this->storage->save<int32_t>(movedValue, operand1Args);
     }
     ~MOVIMM(){};

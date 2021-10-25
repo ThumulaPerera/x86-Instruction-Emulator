@@ -31,7 +31,7 @@ public:
 
         int32_t result = operand1 + operand2;
 
-        std::cout << "result = " << result << std::endl;
+        std::cout << "result = " << result << std::endl << std::endl;
         this->storage->save<int32_t>(result, operand1Args);
 
         bool hasCarry = FlagHandler::isAddCarry<int32_t, uint32_t>(operand1, operand2);

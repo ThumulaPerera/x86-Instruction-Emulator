@@ -30,7 +30,7 @@ public:
         std::cout << "LEA " << stringifyStorageRawArgs(operand2RawArgs) << " , " << stringifyStorageRawArgs(operand1RawArgs) << std::endl;
 
         int32_t result = operand2Args.address;
-        std::cout << "result = " << result << std::endl;
+        std::cout << "result = " << result << std::endl << std::endl;
         this->storage->save<int32_t>(result, operand1Args);
         free(this->modRMByte);
     }

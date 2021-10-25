@@ -40,7 +40,7 @@ public:
         hasOverflow = FlagHandler::isAddOverflow<int32_t>(regMemoryOperand, 1);
         FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow);  
 
-        std::cout << "result = " << result << std::endl;
+        std::cout << "result = " << result << std::endl << std::endl;
     }
     ~INC40(){};
 };

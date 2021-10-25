@@ -25,7 +25,7 @@ public:
         int32_t regOperand = this->storage->load<int32_t>(operandArgs);
 
         int32_t result = regOperand + imm;
-        std::cout << "result = " << result << std::endl;
+        std::cout << "result = " << result << std::endl << std::endl;
         this->storage->save<int32_t>(result, operandArgs);
 
         bool hasCarry = FlagHandler::isAddCarry<int32_t, uint32_t>(imm, regOperand);

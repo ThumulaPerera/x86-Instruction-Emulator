@@ -87,7 +87,7 @@ public:
 
         FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow); 
 
-        std::cout << "result = "<< result << std::endl;
+        std::cout << "result = "<< result << std::endl << std::endl;
 
         // do not save result for CMP 
         if (opcodeExtension != 7)
