@@ -41,6 +41,7 @@ void printSequence(uint8_t *sequence, int length)
     {
         printf("%x ", sequence[i]);
     }
+    std::cout << std::endl;
 }
 
 int main(int argc, char const *argv[])
@@ -95,8 +96,8 @@ int main(int argc, char const *argv[])
         // storage->printAll();
         delete ins;
     }
-    // InstructionFactory::createInstruction(sequence, &current_index);
-    // InstructionFactory::createInstruction(sequence, &current_index);
+
+    storage->printAll();
 
     return 0;
 }

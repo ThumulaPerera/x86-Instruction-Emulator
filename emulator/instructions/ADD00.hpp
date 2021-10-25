@@ -29,7 +29,7 @@ public:
         int8_t operand2 = this->storage->load<int8_t>(operand2Args);
 
         int8_t result =  operand1 + operand2;
-        std::cout << "result = " << std::to_string(result) << std::endl;
+        std::cout << "result = " << std::to_string(result) << std::endl << std::endl;
         this->storage->save<int8_t>(result, operand1Args);
 
         bool hasCarry = FlagHandler::isAddCarry<int8_t, uint8_t>(operand1, operand2);

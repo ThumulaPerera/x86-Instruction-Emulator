@@ -251,6 +251,7 @@ public:
 
     void printAll()
     {
+        std::cout << std::endl;
         std::string register_names[REGISTER_COUNT] = {"EAX", "ECX", "EDX", "EBX", "ESP", "EBP", "ESI", "EDI"};
         std::cout << "Registers\n=========================\n";
         for (int i = 0; i < REGISTER_COUNT; i++)

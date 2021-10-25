@@ -86,7 +86,7 @@ public:
 
         FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow);
 
-        std::cout << "result = " << result << std::endl;
+        std::cout << "result = " << result << std::endl << std::endl;
         this->storage->save<int32_t>(result, storageArgs);
         free(modRMByte);
     }

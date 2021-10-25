@@ -27,7 +27,7 @@ public:
         std::cout << "MOV "
                   << "$" << intToHexString<int32_t>(movedValue) << " , " << stringifyStorageRawArgs(operandRawArgs) << std::endl;
 
-        std::cout << "value being moved = " << movedValue << std::endl;
+        std::cout << "value being moved = " << movedValue << std::endl << std::endl;
         this->storage->save<int32_t>(movedValue, operandArgs);
     }
     ~MOVC7(){};

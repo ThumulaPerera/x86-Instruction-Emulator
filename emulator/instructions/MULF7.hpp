@@ -76,9 +76,7 @@ public:
 
             int32_t signed_lower = (int32_t)lower;
 
-            std::cout << "result = " << result << std::endl;
-            std::cout << "upper = " << upper << std::endl;
-            std::cout << "lower = " << lower << std::endl;
+            std::cout << "result = " << result << std::endl << std::endl;
 
             this->storage->save<uint32_t>(lower, operand1Args);
             this->storage->save<uint32_t>(upper, operand3Args);

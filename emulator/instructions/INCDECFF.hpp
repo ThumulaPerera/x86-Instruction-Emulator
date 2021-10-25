@@ -64,7 +64,7 @@ public:
         }
         FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow);    
 
-        std::cout << "result = " << result << std::endl;
+        std::cout << "result = " << result << std::endl << std::endl;
         free(modRMByte);
     }
     ~INCDECFF(){};

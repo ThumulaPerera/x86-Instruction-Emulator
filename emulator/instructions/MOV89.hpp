@@ -27,7 +27,7 @@ public:
 
         std::cout << "MOV "
                   << stringifyStorageRawArgs(operand2RawArgs) << " , " << stringifyStorageRawArgs(operand1RawArgs) << std::endl;
-        std::cout << "value being moved = " << movedValue << std::endl;
+        std::cout << "value being moved = " << movedValue << std::endl << std::endl;
         this->storage->save<int32_t>(movedValue, operand1Args);
         free(modRMByte);
     }
