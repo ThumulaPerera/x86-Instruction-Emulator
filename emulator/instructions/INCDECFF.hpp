@@ -24,6 +24,9 @@ public:
         int opcodeExtension = modRMByte->getOpcodeExtension();
         int32_t regMemoryOperand = this->storage->load<int32_t>(operand1Args);
         int32_t result;
+        std::vector<FlagType> flagsAffected;
+        bool hasOverflow = false;
+        bool hasCarry = false;
 
         switch (opcodeExtension)
         {
@@ -32,9 +35,8 @@ public:
                 result = regMemoryOperand + 1;
                 this->storage->save<int32_t>(result, operand1Args);
                 
-                enum FlagType flagsAffected[] = {OF, SF, ZF, PF};
-                bool isOverflow = FlagHandler::is32BitAddOveflow(regMemoryOperand, 1);
-                FlagHandler::setFlags(result, this->storage, flagsAffected, 4, false, isOverflow);
+                flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF});
+                hasOverflow = FlagHandler::is32BitAddOveflow(regMemoryOperand, 1);
 
                 break;
             }
@@ -44,9 +46,8 @@ public:
                 result = regMemoryOperand - 1;
                 this->storage->save<int32_t>(result, operand1Args);
 
-                enum FlagType flagsAffected[] = {OF, SF, ZF, PF};
-                bool isOverflow = FlagHandler::is32BitSubOveflow(regMemoryOperand, 1);
-                FlagHandler::setFlags(result, this->storage, flagsAffected, 4, false, isOverflow);
+                flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF});
+                hasOverflow = FlagHandler::is32BitAddOveflow(regMemoryOperand, 1);
 
                 break;
             }
@@ -61,7 +62,7 @@ public:
                 throw std::logic_error("Opcode extension not implemented for opcode FF");
                 break;
         }
-
+        FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow);    
 
         std::cout << "result = " << result << std::endl;
         free(modRMByte);
