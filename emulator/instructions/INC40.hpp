@@ -5,6 +5,7 @@
 
 #include "AbstractInstruction.hpp"
 #include "../ModRM.hpp"
+#include "../FlagHandler.hpp"
 
 class INC40 : public AbstractInstruction
 {
