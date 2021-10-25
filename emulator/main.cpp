@@ -55,7 +55,9 @@ int main(int argc, char const *argv[])
     // std::string input_sequence = "ff c2";
     // std::string input_sequence = "ff ca";
     // std::string input_sequence = "ff f2";
-    std::string input_sequence = "ba af 11 af 11 89 d1";
+    std::string input_sequence = "bb ff ff ff ff b8 02 00 00 00 f7 e3"; // mul OF
+    // std::string input_sequence = "bb ff ff ff ff b8 00 00 00 00 f7 e3";       // mul by 0
+    // std::string input_sequence = "bb 02 00 00 00 b8 02 00 00 00 f7 e3";       // mul 2 by 2
     int sequence_length;
     uint8_t *sequence;
     decodeSequence(input_sequence, &sequence, &sequence_length);

@@ -17,6 +17,7 @@
 #include "instructions/MOV89.hpp"
 #include "instructions/MOV8B.hpp"
 #include "instructions/MOVIMM.hpp"
+#include "instructions/MULF7.hpp"
 
 #include "instructions/SomeOther.hpp"
 #include "Storage.hpp"
@@ -76,6 +77,10 @@ public:
 
         case 0xb8 ... 0xbf:
             instruction = new MOVIMM(opCode, sequence, sequence_current_index, storage);
+            break;
+
+        case 0xf7:
+            instruction = new MULF7(opCode, sequence, sequence_current_index, storage);
             break;
 
         default:
