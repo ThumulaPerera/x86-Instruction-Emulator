@@ -8,6 +8,8 @@
 #include "instructions/ADD00.hpp"
 #include "instructions/ADD01.hpp"
 #include "instructions/ADD05.hpp"
+#include "instructions/XOR34.hpp"
+#include "instructions/INC40.hpp"
 #include "instructions/IMM80.hpp"
 #include "instructions/IMM81.hpp"
 #include "instructions/IMM83.hpp"
@@ -17,7 +19,9 @@
 #include "instructions/INCDECFF.hpp"
 #include "instructions/MOV89.hpp"
 #include "instructions/MOV8B.hpp"
+#include "instructions/ROTSHIFTC1.hpp"
 #include "instructions/MOVIMM.hpp"
+#include "instructions/MOVC7.hpp"
 #include "instructions/MULF7.hpp"
 
 #include "instructions/SomeOther.hpp"
@@ -29,7 +33,7 @@ public:
     static AbstractInstruction *createInstruction(const uint8_t *sequence, int *sequence_current_index, Storage *storage)
     {
         uint8_t opCode = sequence[(*sequence_current_index)++];
-        printf("%x\n", opCode);
+        // printf("%x\n", opCode);
         AbstractInstruction *instruction;
         switch (opCode)
         {
@@ -45,6 +49,15 @@ public:
         case 0x05:
             instruction = new ADD05(opCode, sequence, sequence_current_index, storage);
             break;
+
+        case 0x34:
+            instruction = new XOR34(opCode, sequence, sequence_current_index, storage);
+            break;
+
+        case 0x40 ... 0x47:
+            instruction = new INC40(opCode, sequence, sequence_current_index, storage);
+            break;
+
         case 0x50 ... 0x57:
             instruction = new PUSH(opCode, sequence, sequence_current_index, storage);
             break;
@@ -68,6 +81,10 @@ public:
             instruction = new LEA8D(opCode, sequence, sequence_current_index, storage);
             break;
 
+        case 0xc1:
+            instruction = new ROTSHIFTC1(opCode, sequence, sequence_current_index, storage);
+            break;
+
         case 0xff:
             instruction = new INCDECFF(opCode, sequence, sequence_current_index, storage);
             break;
@@ -82,6 +99,10 @@ public:
 
         case 0xb8 ... 0xbf:
             instruction = new MOVIMM(opCode, sequence, sequence_current_index, storage);
+            break;
+
+        case 0xc7:
+            instruction = new MOVC7(opCode, sequence, sequence_current_index, storage);
             break;
 
         case 0xf7:

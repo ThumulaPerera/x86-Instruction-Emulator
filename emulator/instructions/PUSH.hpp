@@ -27,7 +27,7 @@ public:
         std::cout << "PUSH " << stringifyStorageRawArgs(operandRawArgs) << std::endl;
         
         int32_t value_to_push = this->storage->load<int32_t>(operandArgs);
-        std::cout << "result = " << value_to_push << std::endl;
+        std::cout << "value to push = " << value_to_push << std::endl;
         this->storage->stackPush<int32_t>(value_to_push);
     }
     ~PUSH(){};

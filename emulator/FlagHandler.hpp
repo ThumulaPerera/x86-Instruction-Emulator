@@ -97,7 +97,7 @@ public:
     {
         for (FlagType flagType : flagsAffected)
         {
-            std::cout << "flag: " << flagType << std::endl;
+            // std::cout << "flag: " << flagType << std::endl;
             switch (flagType)
             {
             case CF:

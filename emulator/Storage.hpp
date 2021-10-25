@@ -59,7 +59,7 @@ private:
                 break;
             }
         }
-        printf("Warning: Reading from uninitialized memory location 0x%x\n", address);
+        // printf("Warning: Reading from uninitialized memory location 0x%x\n", address);
         new_memory.insert(position, {address : address, value : (int8_t)0});
         return (int8_t)0;
     }
