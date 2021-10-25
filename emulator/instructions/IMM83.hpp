@@ -38,8 +38,8 @@ public:
         {
             std::cout << "ADD ";
             result = regMemoryOperand + imm;
-            hasCarry = FlagHandler::is32BitAddCarry(regMemoryOperand, imm);
-            hasOverflow = FlagHandler::is32BitAddOveflow(regMemoryOperand, imm);
+            hasCarry = FlagHandler::isAddCarry<int32_t, uint32_t>(regMemoryOperand, imm);
+            hasOverflow = FlagHandler::isAddOverflow<int32_t>(regMemoryOperand, imm);
             flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
             break;
         }
@@ -64,8 +64,8 @@ public:
         {
             std::cout << "SUB ";
             result = regMemoryOperand - imm;
-            hasCarry = FlagHandler::is32BitAddCarry(regMemoryOperand, imm);
-            hasOverflow = FlagHandler::is32BitAddOveflow(regMemoryOperand, imm);
+            hasCarry = FlagHandler::isSubCarry<int32_t, uint32_t>(regMemoryOperand, imm);
+            hasOverflow = FlagHandler::isSubOverflow<int32_t>(regMemoryOperand, imm);
             flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
             break;
         }

@@ -36,7 +36,7 @@ public:
                 this->storage->save<int32_t>(result, operand1Args);
                 
                 flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF});
-                hasOverflow = FlagHandler::is32BitAddOveflow(regMemoryOperand, 1);
+                hasOverflow = FlagHandler::isAddOverflow<int32_t>(regMemoryOperand, 1);
 
                 break;
             }
@@ -47,7 +47,7 @@ public:
                 this->storage->save<int32_t>(result, operand1Args);
 
                 flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF});
-                hasOverflow = FlagHandler::is32BitAddOveflow(regMemoryOperand, 1);
+                hasOverflow = FlagHandler::isSubOverflow<int32_t>(regMemoryOperand, 1);
 
                 break;
             }

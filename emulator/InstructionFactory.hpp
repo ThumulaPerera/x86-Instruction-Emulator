@@ -8,6 +8,7 @@
 #include "instructions/ADD00.hpp"
 #include "instructions/ADD01.hpp"
 #include "instructions/ADD05.hpp"
+#include "instructions/IMM80.hpp"
 #include "instructions/IMM81.hpp"
 #include "instructions/IMM83.hpp"
 #include "instructions/LEA8D.hpp"
@@ -50,6 +51,10 @@ public:
 
         case 0x58 ... 0x5f:
             instruction = new POP(opCode, sequence, sequence_current_index, storage);
+            break;
+
+        case 0x80:
+            instruction = new IMM80(opCode, sequence, sequence_current_index, storage);
             break;
 
         case 0x81:
