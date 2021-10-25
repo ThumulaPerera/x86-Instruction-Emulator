@@ -10,13 +10,17 @@
 
 #include "Utils.hpp"
 
-#define MAX_MEMORY_SIZE 10000
 #define REGISTER_COUNT 8
+#define SEGMENT_REGISTER_COUNT 6
 
 class Storage
 {
 private:
-    int32_t registers[REGISTER_COUNT]; // for EAX,ECX,EDX,EBX,ESP,EBP,ESI,EDI,
+    int32_t registers[REGISTER_COUNT]; // for EAX,ECX,EDX,EBX,ESP,EBP,ESI,EDI
+    int32_t eip;
+    int32_t eflags;
+    int16_t segment_registers[SEGMENT_REGISTER_COUNT]; // for CS,SS,DS,ES,FS,GS
+
     // int8_t memory[MAX_MEMORY_SIZE];
     std::list<MemoryBlock> new_memory;
 
@@ -59,25 +63,33 @@ private:
         new_memory.insert(position, {address : address, value : (int8_t)0});
         return (int8_t)0;
     }
-    int32_t eflags;
 
 public:
-    Storage(/* args */)
+    Storage()
     {
-        // stack_pointer = 0;
-        for (int i = 0; i < REGISTER_COUNT; i++)
-        {
-            registers[i] = 0;
-        }
-        registers[EBP] = MAX_MEMORY_SIZE;
-        registers[ESP] = MAX_MEMORY_SIZE;
-        // registers[EDX] = 200;
-        // registers[ECX] = 9;
-        // registers[EAX] = 0xfedcba98;
-        // registers[EBX] = 0xf89ac;
+        // initialize registers;
+        registers[EAX] = 0xbf8db144;
+        registers[ECX] = 0x88c5cffb;
+        registers[EDX] = 0x1;
+        registers[EBX] = 0xae5ff4;
+        registers[ESP] = 0xbf8db0bc;
+        registers[EBP] = 0xbf8db118;
+        registers[ESI] = 0x9a0ca0;
+        registers[EDI] = 0x0;
+
+        eip = 0x8048354;
+        eflags = 0x246;
+
+        segment_registers[CS] = 0x73;
+        segment_registers[SS] = 0x7b;
+        segment_registers[DS] = 0x7b;
+        segment_registers[ES] = 0x7b;
+        segment_registers[FS] = 0x0;
+        segment_registers[GS] = 0x33;
+
+        // initialize memory
         new_memory.push_back({address : 0, value : 0});
         new_memory.push_back({address : 0xffffffff, value : 0});
-        eflags = 0x246;
     };
 
     template <class T>
@@ -245,8 +257,15 @@ public:
         {
             std::cout << register_names[i] << "\t" << intToHexString(registers[i]) << std::endl;
         }
+        std::cout << "EIP"
+                  << "\t" << intToHexString(eip) << std::endl;
         std::cout << "EFLAGS"
                   << "\t" << intToHexString(eflags) << std::endl;
+        std::string segment_register_names[REGISTER_COUNT] = {"CS", "SS", "DS", "ES", "FS", "GS"};
+        for (int i = 0; i < SEGMENT_REGISTER_COUNT; i++)
+        {
+            std::cout << segment_register_names[i] << "\t" << intToHexString(segment_registers[i]) << std::endl;
+        }
         std::cout << "=========================\n";
         std::cout << "\nMemory\n=========================\n";
         std::cout << "Address\t\tValue\n";
