@@ -8,7 +8,7 @@
 #include "instructions/ADD00.hpp"
 #include "instructions/ADD01.hpp"
 #include "instructions/ADD05.hpp"
-#include "instructions/ADD81.hpp"
+#include "instructions/IMM81.hpp"
 #include "instructions/IMM83.hpp"
 #include "instructions/LEA8D.hpp"
 #include "instructions/POP.hpp"
@@ -53,7 +53,7 @@ public:
             break;
 
         case 0x81:
-            instruction = new ADD81(opCode, sequence, sequence_current_index, storage);
+            instruction = new IMM81(opCode, sequence, sequence_current_index, storage);
             break;
 
         case 0x83:
