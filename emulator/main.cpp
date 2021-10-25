@@ -92,7 +92,7 @@ int main(int argc, char const *argv[])
     {
         ins = InstructionFactory::createInstruction(sequence, &current_index, storage);
         ins->execute();
-        storage->printAll();
+        // storage->printAll();
         delete ins;
     }
     // InstructionFactory::createInstruction(sequence, &current_index);
