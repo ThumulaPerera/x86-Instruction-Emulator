@@ -16,7 +16,6 @@ public:
     using AbstractInstruction::AbstractInstruction;     
     void execute()
     {
-        std::cout << "executing IMM81\n";
         modRMByte = new ModRM(register_operand_size, this->sequence,this->sequence_current_index, this->storage);
         StorageRawArgs storageRawArgs;
         StorageArgs storageArgs = modRMByte->getModRM(storageRawArgs);
@@ -32,6 +31,7 @@ public:
         {
             case 0:
             {
+                std::cout << "ADD ";
                 result = regMemoryOperand + imm;
                 hasCarry = FlagHandler::is32BitAddCarry(regMemoryOperand, imm);
                 hasOverflow = FlagHandler::is32BitAddOveflow(regMemoryOperand, imm);
@@ -40,18 +40,21 @@ public:
             }
             case 1:
             {
+                std::cout << "OR ";
                 result = regMemoryOperand | imm;
                 flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
                 break;
             }
             case 4:
             {
+                std::cout << "AND ";
                 result = regMemoryOperand & imm;
                 flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
                 break;
             }
             case 5:
             {
+                std::cout << "SUB ";
                 hasCarry = FlagHandler::is32BitSubCarry(regMemoryOperand, imm);
                 hasOverflow = FlagHandler::is32BitSubOveflow(regMemoryOperand, imm);
                 flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
@@ -60,8 +63,18 @@ public:
             }
             case 6:
             {
+                std::cout << "XOR ";
                 result = regMemoryOperand ^ imm;
                 flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
+                break;
+            }
+            case 7:{
+                 std::cout << "CMP ";
+                // flags same as SUB operation
+                hasCarry = FlagHandler::is32BitSubCarry(regMemoryOperand, imm);
+                hasOverflow = FlagHandler::is32BitSubOveflow(regMemoryOperand, imm);
+                flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
+                result = regMemoryOperand - imm;
                 break;
             }
             default:
@@ -70,11 +83,19 @@ public:
                 break;
             }
         }
+        std::cout << "$" << intToHexString<int32_t>(imm) << " , " << stringifyStorageRawArgs(storageRawArgs) << std::endl;
 
         FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow); 
 
         std::cout << "result = "<< result << std::endl;
-        this->storage->save<int32_t>(result, storageArgs);
+
+        // do not save result for CMP 
+        if (opcodeExtension != 7)
+        {
+            this->storage->save<int32_t>(result, storageArgs);
+        }
+        
+        
         free(modRMByte);
                 
     }
