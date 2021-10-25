@@ -34,8 +34,8 @@ public:
         std::cout << "result = " << result << std::endl;
         this->storage->save<int32_t>(result, operand1Args);
 
-        bool hasCarry = FlagHandler::is32BitAddCarry(operand1, operand2);
-        bool hasOverflow = FlagHandler::is32BitAddOveflow(operand1, operand2);
+        bool hasCarry = FlagHandler::isAddCarry<int32_t, uint32_t>(operand1, operand2);
+        bool hasOverflow = FlagHandler::isAddOverflow<int32_t>(operand1, operand2);
 
         std::vector<FlagType> flagsAffected;
         flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
