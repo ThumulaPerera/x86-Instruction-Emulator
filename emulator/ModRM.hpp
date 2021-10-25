@@ -49,19 +49,23 @@ public:
     };
     ~ModRM(){};
 
-    struct StorageArgs getReg()
+    struct StorageArgs getReg(struct StorageRawArgs &output_raw_args)
     {
         struct StorageArgs output;
         output.storage_type = this->getRegisterType();
         output.address = (int)((byte_value & ((uint8_t)0b00111000)) >> 3);
+
+        output_raw_args.storage_type = output.storage_type;
+        output_raw_args.direct_reg = output.address;
         return output;
     }
 
-    int getOpcodeExtension(){
+    int getOpcodeExtension()
+    {
         return (int)((byte_value & ((uint8_t)0b00111000)) >> 3);
     }
 
-    struct StorageArgs getModRM()
+    struct StorageArgs getModRM(struct StorageRawArgs &output_raw_args)
     {
         uint8_t mod = (byte_value & ((uint8_t)0b11000000)) >> 6;
         uint8_t rm = byte_value & ((uint8_t)0b00000111);
@@ -73,10 +77,11 @@ public:
         {
 
             output.storage_type = MEMORY;
+            output_raw_args.storage_type = MEMORY;
 
             if (rm == 0b100)
             {
-                output.address = SIB::getScaledIndex(this->sequence, this->sequence_current_index, mod, this->storage);
+                output.address = SIB::getScaledIndex(this->sequence, this->sequence_current_index, mod, this->storage, output_raw_args);
             }
             else if (rm == 0b101)
             {
@@ -84,6 +89,12 @@ public:
                 std::memcpy(&displacement, &(this->sequence[*this->sequence_current_index]), sizeof(int32_t));
                 (*this->sequence_current_index) += sizeof(int32_t);
                 output.address = displacement;
+
+                output_raw_args.has_base = false;
+                output_raw_args.has_scale = false;
+                output_raw_args.has_scale_factor = false;
+                output_raw_args.has_displacement = true;
+                output_raw_args.displacement = displacement;
             }
             else
             {
@@ -91,6 +102,12 @@ public:
                 intermediate_storage_args.storage_type = R32;
                 intermediate_storage_args.address = rm;
                 output.address = this->storage->load<int32_t>(intermediate_storage_args);
+
+                output_raw_args.has_base = true;
+                output_raw_args.base_reg = rm;
+                output_raw_args.has_scale = false;
+                output_raw_args.has_scale_factor = false;
+                output_raw_args.has_displacement = false;
             }
 
             break;
@@ -100,12 +117,16 @@ public:
         {
 
             output.storage_type = MEMORY;
+            output_raw_args.storage_type = MEMORY;
 
             if (rm == 0b100)
             {
-                int32_t SIB_value = SIB::getScaledIndex(this->sequence, this->sequence_current_index, mod, this->storage);
+                int32_t SIB_value = SIB::getScaledIndex(this->sequence, this->sequence_current_index, mod, this->storage, output_raw_args);
                 int32_t displacement = (int32_t)(this->sequence[(*this->sequence_current_index)++]);
                 output.address = SIB_value + displacement;
+
+                output_raw_args.has_displacement = true;
+                output_raw_args.displacement = displacement;
             }
             else
             {
@@ -115,6 +136,13 @@ public:
                 intermediate_storage_args.storage_type = R32;
                 intermediate_storage_args.address = rm;
                 output.address = this->storage->load<int32_t>(intermediate_storage_args) + displacement;
+
+                output_raw_args.has_base = true;
+                output_raw_args.base_reg = rm;
+                output_raw_args.has_scale = false;
+                output_raw_args.has_scale_factor = false;
+                output_raw_args.has_displacement = true;
+                output_raw_args.displacement = displacement;
             }
 
             break;
@@ -124,15 +152,19 @@ public:
         {
 
             output.storage_type = MEMORY;
+            output_raw_args.storage_type = MEMORY;
 
             if (rm == 0b100)
             {
-                int32_t SIB_value = SIB::getScaledIndex(this->sequence, this->sequence_current_index, mod, this->storage);
+                int32_t SIB_value = SIB::getScaledIndex(this->sequence, this->sequence_current_index, mod, this->storage, output_raw_args);
 
                 int32_t displacement;
                 std::memcpy(&displacement, &(this->sequence[*this->sequence_current_index]), sizeof(int32_t));
                 (*this->sequence_current_index) += sizeof(int32_t);
                 output.address = SIB_value + displacement;
+
+                output_raw_args.has_displacement = true;
+                output_raw_args.displacement = displacement;
             }
             else
             {
@@ -143,6 +175,13 @@ public:
                 intermediate_storage_args.storage_type = R32;
                 intermediate_storage_args.address = rm;
                 output.address = this->storage->load<int32_t>(intermediate_storage_args) + displacement;
+
+                output_raw_args.has_base = true;
+                output_raw_args.base_reg = rm;
+                output_raw_args.has_scale = false;
+                output_raw_args.has_scale_factor = false;
+                output_raw_args.has_displacement = true;
+                output_raw_args.displacement = displacement;
             }
 
             break;
@@ -151,6 +190,10 @@ public:
         case 0b11:
             output.storage_type = this->getRegisterType();
             output.address = (int)rm;
+
+            output_raw_args.storage_type = output.storage_type;
+            output_raw_args.direct_reg = (int)rm;
+
             break;
 
         default:

@@ -5,6 +5,7 @@
 
 #include <string>
 #include <math.h>
+#include <vector>
 
 class FlagHandler
 {
@@ -90,17 +91,13 @@ public:
     template <class T>
     static void setFlags(T result,
                          Storage *storage,
-                         enum FlagType flagsAffected[],
-                         int flagsAffectedCount,
+                         std::vector<FlagType> flagsAffected,
                          bool carry = false,
                          bool oveflow = false)
     {
-        for (int i = 0; i < flagsAffectedCount; i++)
+        for (FlagType flagType : flagsAffected)
         {
-            std::cout << "flag: " << flagsAffected[i] << std::endl;
-
-            FlagType flagType = flagsAffected[i];
-
+            std::cout << "flag: " << flagType << std::endl;
             switch (flagType)
             {
             case CF:
