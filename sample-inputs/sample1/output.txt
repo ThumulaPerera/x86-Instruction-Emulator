@@ -1,0 +1,62 @@
+c7 c1 0 0 0 0 c7 c3 0 0 0 0 c7 4 8b 64 0 0 0 41 c7 4 8b 38 ff ff ff 49 81 4 8b 10 27 0 0 41 81 4 8b 20 4e 0 0 
+
+MOV $0x00000000 , %ecx
+value being moved = 0
+
+MOV $0x00000000 , %ebx
+value being moved = 0
+
+MOV $0x00000064 , ( %ebx + %ecx*4 )
+value being moved = 100
+
+INC %ecx
+result = 1
+
+MOV $0xffffff38 , ( %ebx + %ecx*4 )
+value being moved = -200
+
+DEC %ecx
+result = 0
+
+ADD $0x00002710 , ( %ebx + %ecx*4 )
+result = 10100
+
+INC %ecx
+result = 1
+
+ADD $0x00004e20 , ( %ebx + %ecx*4 )
+result = 19800
+
+
+Registers
+=========================
+EAX     0xbf8db144
+ECX     0x00000001
+EDX     0x00000001
+EBX     0x00000000
+ESP     0xbf8db0bc
+EBP     0xbf8db118
+ESI     0x009a0ca0
+EDI     0x00000000
+EIP     0x08048354
+EFLAGS  0x00000203
+CS      0x0073
+SS      0x007b
+DS      0x007b
+ES      0x007b
+FS      0x0000
+GS      0x0033
+=========================
+
+Memory
+=========================
+Address         Value
+0x00000000      0x74
+0x00000001      0x27
+0x00000002      0x00
+0x00000003      0x00
+0x00000004      0x58
+0x00000005      0x4d
+0x00000006      0x00
+0x00000007      0x00
+0xffffffff      0x00
