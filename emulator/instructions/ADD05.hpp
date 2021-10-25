@@ -5,11 +5,12 @@
 
 #include "AbstractInstruction.hpp"
 #include "../ModRM.hpp"
+#include "../FlagHandler.hpp"
 
 class ADD05 : public AbstractInstruction
 {
 private:
-    static const int register_operand_size = 16;
+    static const int register_operand_size = 32;
 
 public:
     using AbstractInstruction::AbstractInstruction;
@@ -18,12 +19,21 @@ public:
         std::cout << "executing ADD05\n";
 
         struct StorageArgs operandArgs;
-        operandArgs.storage_type = R16;
-        operandArgs.address = AX;
-        int16_t imm = this->getImmediateValue<int16_t>();
-        int16_t result = this->storage->load<int16_t>(operandArgs) + imm;
+        operandArgs.storage_type = R32;
+        operandArgs.address = EAX;
+        int32_t imm = this->getImmediateValue<int32_t>();
+        int32_t regOperand = this->storage->load<int32_t>(operandArgs);
+
+        int32_t result = regOperand + imm;
         std::cout << "result = " << result << std::endl;
-        this->storage->save<int16_t>(result, operandArgs);
+        this->storage->save<int32_t>(result, operandArgs);
+
+        bool hasCarry = FlagHandler::isAddCarry<int32_t, uint32_t>(imm, regOperand);
+        bool hasOverflow = FlagHandler::isAddOverflow<int32_t>(imm, regOperand);
+
+        std::vector<FlagType> flagsAffected;
+        flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
+        FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow);
     }
     ~ADD05(){};
 };
