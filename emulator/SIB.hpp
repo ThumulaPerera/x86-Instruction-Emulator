@@ -19,11 +19,6 @@ public:
         uint8_t index = (byte_value & ((uint8_t)0b00111000)) >> 3;
         uint8_t base = byte_value & ((uint8_t)0b00000111);
 
-        if (index == 0b100)
-        {
-            throw std::logic_error("index=100 not supported in SIB");
-        }
-
         uint8_t multiplier = ((uint8_t)1) << scale;
 
         struct StorageArgs index_storage_args;
@@ -37,6 +32,13 @@ public:
         output_raw_args.scale_factor = multiplier;
 
         int32_t scaled_index = storage->load<int32_t>(index_storage_args) * ((int32_t)multiplier);
+
+        if (index == 0b100)
+        {
+            output_raw_args.has_scale = false;
+            output_raw_args.has_scale_factor = false;
+            scaled_index = 0;
+        }
         if (base == 0b101 && modrm_mod_value == 0b00)
         {
             /*
