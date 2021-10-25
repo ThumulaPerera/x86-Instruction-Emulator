@@ -17,6 +17,7 @@
 #include "instructions/INCDECFF.hpp"
 #include "instructions/MOV89.hpp"
 #include "instructions/MOV8B.hpp"
+#include "instructions/ROTSHIFTC1.hpp"
 #include "instructions/MOVIMM.hpp"
 #include "instructions/MULF7.hpp"
 
@@ -66,6 +67,10 @@ public:
             break;
         case 0x8d:
             instruction = new LEA8D(opCode, sequence, sequence_current_index, storage);
+            break;
+
+        case 0xc1:
+            instruction = new ROTSHIFTC1(opCode, sequence, sequence_current_index, storage);
             break;
 
         case 0xff:
