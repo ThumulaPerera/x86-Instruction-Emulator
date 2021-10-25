@@ -18,7 +18,6 @@ public:
     using AbstractInstruction::AbstractInstruction;
     void execute()
     {
-        std::cout << "executing MOV89\n";
         modRMByte = new ModRM(register_operand_size, this->sequence, this->sequence_current_index, this->storage);
         StorageRawArgs operand1RawArgs;
         StorageRawArgs operand2RawArgs;
@@ -26,6 +25,9 @@ public:
         StorageArgs operand2Args = modRMByte->getReg(operand2RawArgs);
         int32_t movedValue = this->storage->load<int32_t>(operand2Args);
         std::cout << "value being moved = " << movedValue << std::endl;
+        std::cout << "MOV "
+                  << stringifyStorageRawArgs(operand2RawArgs) << " , " << stringifyStorageRawArgs(operand1RawArgs) << std::endl;
+
         this->storage->save<int32_t>(movedValue, operand1Args);
         free(modRMByte);
     }

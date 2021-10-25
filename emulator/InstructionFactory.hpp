@@ -8,6 +8,8 @@
 #include "instructions/ADD00.hpp"
 #include "instructions/ADD01.hpp"
 #include "instructions/ADD05.hpp"
+#include "instructions/XOR34.hpp"
+#include "instructions/INC40.hpp"
 #include "instructions/IMM80.hpp"
 #include "instructions/IMM81.hpp"
 #include "instructions/IMM83.hpp"
@@ -46,6 +48,15 @@ public:
         case 0x05:
             instruction = new ADD05(opCode, sequence, sequence_current_index, storage);
             break;
+
+        case 0x34:
+            instruction = new XOR34(opCode, sequence, sequence_current_index, storage);
+            break;
+
+        case 0x40 ... 0x47:
+            instruction = new INC40(opCode, sequence, sequence_current_index, storage);
+            break;
+
         case 0x50 ... 0x57:
             instruction = new PUSH(opCode, sequence, sequence_current_index, storage);
             break;
