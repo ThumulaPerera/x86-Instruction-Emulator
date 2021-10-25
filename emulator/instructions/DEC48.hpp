@@ -1,5 +1,5 @@
-#ifndef INC40_H
-#define INC40_H
+#ifndef DEC48_H
+#define DEC48_H
 
 #include <iostream>
 
@@ -7,7 +7,7 @@
 #include "../ModRM.hpp"
 #include "../FlagHandler.hpp"
 
-class INC40 : public AbstractInstruction
+class DEC48 : public AbstractInstruction
 {
 private:
     static const int register_operand_size = 32;
@@ -18,7 +18,7 @@ public:
     {
         struct StorageArgs operandArgs;
         operandArgs.storage_type = R32;
-        operandArgs.address = (int32_t)(this->opCode - ((uint8_t)0x40));
+        operandArgs.address = (int32_t)(this->opCode - ((uint8_t)0x48));
 
         struct StorageRawArgs operandRawArgs;
         operandRawArgs.storage_type = R32;
@@ -31,18 +31,18 @@ public:
         bool hasOverflow = false;
         bool hasCarry = false;
 
-        std::cout << "INC " << stringifyStorageRawArgs(operandRawArgs) << std::endl;
+        std::cout << "DEC " << stringifyStorageRawArgs(operandRawArgs) << std::endl;
 
-        result = regMemoryOperand + 1;
+        result = regMemoryOperand - 1;
         this->storage->save<int32_t>(result, operandArgs);
 
         flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF});
-        hasOverflow = FlagHandler::isAddOverflow<int32_t>(regMemoryOperand, 1);
+        hasOverflow = FlagHandler::isSubOverflow<int32_t>(regMemoryOperand, 1);
         FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow);  
 
         std::cout << "result = " << result << std::endl;
     }
-    ~INC40(){};
+    ~DEC48(){};
 };
 
 #endif

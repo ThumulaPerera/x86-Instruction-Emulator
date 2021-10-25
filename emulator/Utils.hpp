@@ -34,6 +34,13 @@
 #define SI 6
 #define DI 7
 
+#define CS 0
+#define SS 1
+#define DS 2
+#define ES 3
+#define FS 4
+#define GS 5
+
 enum StorageType
 {
     R8,
