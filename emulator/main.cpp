@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <sstream>
 #include <stdio.h>
@@ -60,7 +61,22 @@ int main(int argc, char const *argv[])
     // std::string input_sequence = "bb 02 00 00 00 b8 02 00 00 00 f7 e3";       // 2 * 2
     // std::string input_sequence = "b8 04 00 00 00 b9 03 00 00 00 01 c8";       // 4 + 3
     // std::string input_sequence = "b8 ff ff ff ff b9 01 00 00 00 01 c8";       // UINT32_MAX + 1 (carries)
-    std::string input_sequence = "b8 ff ff ff 7f b9 01 00 00 00 01 c8";       // INT32_MAX + 1 (overflows)
+    // std::string input_sequence = "b8 ff ff ff 7f b9 01 00 00 00 01 c8";       // INT32_MAX + 1 (overflows)
+
+    if(argc != 2){
+        std::string message = "program expects [1] cmd line args. provided [" + std::to_string(argc - 1) + "]";
+        throw std::logic_error(message);
+    }
+
+    std::string input_file_path = argv[1];
+
+    std::string input_sequence;
+
+    std::ifstream InputFile(input_file_path);
+    std::getline(InputFile, input_sequence);
+
+    InputFile.close(); 
+
     int sequence_length;
     uint8_t *sequence;
     decodeSequence(input_sequence, &sequence, &sequence_length);
