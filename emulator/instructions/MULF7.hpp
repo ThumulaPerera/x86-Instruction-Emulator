@@ -22,6 +22,9 @@ public:
         std::cout << "executing MULF7\n";
         modRMByte = new ModRM(register_operand_size, this->sequence, this->sequence_current_index, this->storage);
         int opcodeExtension = modRMByte->getOpcodeExtension();
+        std::vector<FlagType> flagsAffected;
+        bool hasOverflow = false;
+        bool hasCarry = false;
 
         switch (opcodeExtension)
         {
@@ -51,11 +54,11 @@ public:
             this->storage->save<int32_t>(lower, operand1Args);
             this->storage->save<int32_t>(upper, operand3Args);
 
-            bool hasCarry = upper;
-            bool hasOverflow = upper;
+            hasCarry = upper;
+            hasOverflow = upper;
 
-            enum FlagType flagsAffected[] = {OF, CF};
-            FlagHandler::setFlags(result, this->storage, flagsAffected, 2, hasCarry, hasOverflow);
+            flagsAffected.insert(flagsAffected.end(), {OF, CF});
+            FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow);
 
             break;
         }

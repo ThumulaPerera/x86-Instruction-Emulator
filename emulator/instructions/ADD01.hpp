@@ -31,10 +31,12 @@ public:
         std::cout << "result = " << result << std::endl;
         this->storage->save<int32_t>(result, operand1Args);
 
-        enum FlagType flagsAffected[] = {OF, SF, ZF, PF, CF};
-        bool hasOverflow = FlagHandler::is32BitAddOveflow(operand1, operand2);
         bool hasCarry = FlagHandler::is32BitAddCarry(operand1, operand2);
-        FlagHandler::setFlags(result, this->storage, flagsAffected, 5, hasCarry, hasOverflow);
+        bool hasOverflow = FlagHandler::is32BitAddOveflow(operand1, operand2);
+
+        std::vector<FlagType> flagsAffected;
+        flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
+        FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow);
 
         free(modRMByte);
     }
