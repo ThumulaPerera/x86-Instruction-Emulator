@@ -24,10 +24,10 @@ public:
         StorageArgs operand1Args = modRMByte->getModRM(operand1RawArgs);
         StorageArgs operand2Args = modRMByte->getReg(operand2RawArgs);
         int32_t movedValue = this->storage->load<int32_t>(operand2Args);
-        std::cout << "value being moved = " << movedValue << std::endl;
+
         std::cout << "MOV "
                   << stringifyStorageRawArgs(operand2RawArgs) << " , " << stringifyStorageRawArgs(operand1RawArgs) << std::endl;
-
+        std::cout << "value being moved = " << movedValue << std::endl;
         this->storage->save<int32_t>(movedValue, operand1Args);
         free(modRMByte);
     }

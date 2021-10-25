@@ -32,7 +32,7 @@ public:
     static AbstractInstruction *createInstruction(const uint8_t *sequence, int *sequence_current_index, Storage *storage)
     {
         uint8_t opCode = sequence[(*sequence_current_index)++];
-        printf("%x\n", opCode);
+        // printf("%x\n", opCode);
         AbstractInstruction *instruction;
         switch (opCode)
         {

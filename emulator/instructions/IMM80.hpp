@@ -2,6 +2,7 @@
 #define IMM80_H
 
 #include <iostream>
+#include <string>
 
 #include "AbstractInstruction.hpp"
 #include "../ModRM.hpp"
@@ -87,7 +88,7 @@ public:
 
         FlagHandler::setFlags(result, this->storage, flagsAffected, hasCarry, hasOverflow); 
 
-        std::cout << "result = "<< result << std::endl;
+        std::cout << "result = "<< std::to_string(result) << std::endl;
 
         // do not save result for CMP 
         if (opcodeExtension != 7)

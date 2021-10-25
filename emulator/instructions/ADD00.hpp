@@ -2,6 +2,7 @@
 #define ADD00_H
 
 #include <iostream>
+#include <string>
 
 #include "AbstractInstruction.hpp"
 #include "../ModRM.hpp"
@@ -24,7 +25,7 @@ public:
         StorageArgs operand2Args = modRMByte->getReg(operand2RawArgs);
         int8_t result = this->storage->load<int8_t>(operand1Args) +
                          this->storage->load<int8_t>(operand2Args);
-        std::cout << "result = " << result << std::endl;
+        std::cout << "result = " << std::to_string(result) << std::endl;
         this->storage->save<int8_t>(result, operand1Args);
         free(modRMByte);
     }

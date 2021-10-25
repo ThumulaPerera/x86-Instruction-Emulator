@@ -2,6 +2,7 @@
 #define XOR34_H
 
 #include <iostream>
+#include <string>
 
 #include "AbstractInstruction.hpp"
 #include "../ModRM.hpp"
@@ -34,7 +35,7 @@ public:
         bool hasOverflow = false;
         bool hasCarry = false;
 
-        std::cout << "result = " << result << std::endl;
+        std::cout << "result = " << std::to_string(result) << std::endl;
         this->storage->save<int8_t>(result, regOperandArgs);
 
         flagsAffected.insert(flagsAffected.end(), {OF, SF, ZF, PF, CF});
