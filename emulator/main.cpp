@@ -89,11 +89,14 @@ int main(int argc, char const *argv[])
 
     AbstractInstruction *ins;
     Storage *storage = new Storage();
+    storage->printAll();
+    std::cout << "starting sequence\n\n";
     while (current_index < sequence_length)
     {
         ins = InstructionFactory::createInstruction(sequence, &current_index, storage);
         ins->execute();
-        // storage->printAll();
+        storage->printAll();
+        std::cout << std::endl;
         delete ins;
     }
 
