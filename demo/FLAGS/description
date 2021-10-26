@@ -1,0 +1,4 @@
+ADD-OF :  INT32_MAX + 1 (overflows)
+ADD-CF :  UINT32_MAX + 1 (carries)
+MUL-OF :  UINT32_MAX * 2 (oveflows)
+ZF     :  UINT32_MAX * 0 (zero)
