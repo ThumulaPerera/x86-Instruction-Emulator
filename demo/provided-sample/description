@@ -1,10 +1,10 @@
-8d 4c 24 04        Store addr [disp8(0x04) + ScaledIndex(none) + base(ESP)] in ECX
-83 e4 f0           ESP = ESP & 0xf0 
-50                 Push EAX 
-c1 f8 02           EAX = EAX % (2 * 0x02)
-34 2e              AL = AL xor 0x2e
-89 e5              MOV ESP to EBP 
-45                 INC EBP
-83 ec 04           ESP = ESP - 0x04
-80 7c 24 04 81     CMP val[disp8(0x04) + ScaledIndex(none) + base(ESP)] with 0x81
-5d                 POP EBP
+8d 4c 24 04        Store addr [disp8(0x04) + ScaledIndex(none) + base(ESP)] in ECX      0xbf8db0bc + 0x4 = 0xbf8db0c0
+83 e4 f0           ESP = ESP & 0xf0                         0xbc AND 0xf0 = 0xb0
+50                 Push EAX                                 ESP = 0xbf8db0b0 - 4 = 0xbf8db0ac     0xbf8db144 pushed to stack
+c1 f8 02           EAX = EAX % (2 * 0x02)                   (-1081233084)/4 = -270308271 = 0xefe36c51
+34 2e              AL = AL xor 0x2e                         0x51 xor 0x2e = 0x71
+89 e5              MOV ESP to EBP                           moving 0xbf8db0ac
+45                 INC EBP                                  0xbf8db0ac + 1 = 0xbf8db0ad
+83 ec 04           ESP = ESP - 0x04                         0xbf8db0ac - 4 = 0xbf8db0a8
+80 7c 24 04 81     CMP val[disp8(0x04) + ScaledIndex(none) + base(ESP)] with 0x81       0x44!=0x81  flags_set = carry,overflow,signed,parity flags_unset=zero
+5d                 POP EBP                                  mov undefined value to ebp (0 in this example)

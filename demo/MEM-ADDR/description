@@ -1,4 +1,5 @@
-MOV ECX, EAX
-MOV [EBX], EDX 
-MOV [EBX] + 0x64 (8bit disp), EDX 
-MOV [EBX] + 0x186a0(32bit disp), EDX 
+89 c1               MOV ECX, EAX
+89 13               MOV [EBX], EDX 
+89 53 64            MOV [EBX] + 0x64 (8bit disp), EDX 
+89 93 a0 86 01 00   MOV [EBX] + 0x186a0(32bit disp), EDX 
+89 54 90 01         MOV [EAX] + [EDX]*4 + 0x1 (8 bit disp), EDX
