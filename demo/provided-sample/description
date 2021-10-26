@@ -1,0 +1,10 @@
+8d 4c 24 04        Store addr [disp8(0x04) + ScaledIndex(none) + base(ESP)] in ECX
+83 e4 f0           ESP = ESP & 0xf0 
+50                 Push EAX 
+c1 f8 02           EAX = EAX % (2 * 0x02)
+34 2e              AL = AL xor 0x2e
+89 e5              MOV ESP to EBP 
+45                 INC EBP
+83 ec 04           ESP = ESP - 0x04
+80 7c 24 04 81     CMP val[disp8(0x04) + ScaledIndex(none) + base(ESP)] with 0x81
+5d                 POP EBP

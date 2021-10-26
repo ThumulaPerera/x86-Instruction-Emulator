@@ -1,0 +1,66 @@
+8d 4c 24 4 83 e4 f0 50 c1 f8 2 34 2e 89 e5 45 83 ec 4 80 7c 24 4 81 5d 
+
+LEA ( %esp + 0x00000004 ) , %ecx
+result = -1081233216
+
+AND $0xfffffff0 , %esp
+result = -1081233232
+
+PUSH %eax
+value to push = -1081233084
+
+SAR $0x02 , %eax
+result = -270308271
+
+XOR $0x2e , %al
+result = 127
+
+MOV %esp , %ebp
+value being moved = -1081233236
+
+INC %ebp
+result = -1081233235
+
+SUB $0x00000004 , %esp
+result = -1081233240
+
+CMP $0x81 , ( %esp + 0x00000004 )
+result = -61
+
+POP %ebp
+poppped value = 0
+
+
+Registers
+=========================
+EAX     0xefe36c7f
+ECX     0xbf8db0c0
+EDX     0x00000001
+EBX     0x00ae5ff4
+ESP     0xbf8db0ac
+EBP     0x00000000
+ESI     0x009a0ca0
+EDI     0x00000000
+EIP     0x08048354
+EFLAGS  0x00000a87
+CS      0x0073
+SS      0x007b
+DS      0x007b
+ES      0x007b
+FS      0x0000
+GS      0x0033
+=========================
+
+Memory
+=========================
+Address         Value
+0x00000000      0x00
+0xbf8db0a8      0x00
+0xbf8db0a9      0x00
+0xbf8db0aa      0x00
+0xbf8db0ab      0x00
+0xbf8db0ac      0x44
+0xbf8db0ad      0xb1
+0xbf8db0ae      0x8d
+0xbf8db0af      0xbf
+0xffffffff      0x00
