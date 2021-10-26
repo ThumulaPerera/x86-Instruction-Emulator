@@ -1,0 +1,4 @@
+MOV ECX, EAX
+MOV [EBX], EDX 
+MOV [EBX] + 0x64 (8bit disp), EDX 
+MOV [EBX] + 0x186a0(32bit disp), EDX 
