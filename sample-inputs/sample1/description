@@ -1,0 +1,16 @@
+add 2 vectors (x1, y1) + (x2, y2)
+result (x1+x2, y1+y2)
+
+result is available on (memory[0], memory[4])
+
+this example (100, -200) + (10000 + 20000)
+
+c7 c1 00 00 00 00           ecx = 0
+c7 c3 00 00 00 00           ebx = 0
+c7 04 8b 64 00 00 00        insert 100 as x1
+41                          ecx++
+c7 04 8b 38 ff ff ff        insert -200 as y1
+49                          ecx--      
+81 04 8b 10 27 00 00        add 10000 as x2 to x1
+41
+81 04 8b 20 4e 00 00        add 10000 as y2 to y1

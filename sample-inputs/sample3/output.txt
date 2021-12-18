@@ -1,0 +1,37 @@
+b8 ff ff ff 7f b9 1 0 0 0 1 c8 
+
+MOV $0x7fffffff , %eax
+value being moved = 2147483647
+
+MOV $0x00000001 , %ecx
+value being moved = 1
+
+ADD %ecx , %eax
+result = -2147483648
+
+
+Registers
+=========================
+EAX     0x80000000
+ECX     0x00000001
+EDX     0x00000001
+EBX     0x00ae5ff4
+ESP     0xbf8db0bc
+EBP     0xbf8db118
+ESI     0x009a0ca0
+EDI     0x00000000
+EIP     0x08048354
+EFLAGS  0x00000a86
+CS      0x0073
+SS      0x007b
+DS      0x007b
+ES      0x007b
+FS      0x0000
+GS      0x0033
+=========================
+
+Memory
+=========================
+Address         Value
+0x00000000      0x00
+0xffffffff      0x00
